@@ -330,12 +330,36 @@ Follow steps from [Set up a Cluster Admin namespace for Migration](https://docs.
     ```
     We specified `5m` interval in the yaml for testing purposes.
 
+
 - Create migration policy
   Refer portworx docs - [Start a migration](https://docs.portworx.com/portworx-install-with-kubernetes/migration/#start-a-migration) for details
     ```
     ▶ oc create -f migrationschedule.yaml 
     migrationschedule.stork.libopenstorage.org/failovermigrationschedule created
     ```
+    ```
+    apiVersion: stork.libopenstorage.org/v1alpha1
+    kind: MigrationSchedule
+    metadata:
+      name: failovermigrationschedule
+      namespace: test-async-dr
+    spec:
+      template:
+        spec:
+          clusterPair: remote-us-east-cluster
+          includeResources: true
+          includeVolumes: true
+          startApplications: true
+          namespaces:
+          - pb-pwx-test
+      schedulePolicyName: failoverschedulepolicy
+    ```
+   Using the above migrationschedule object, it is specified that the goal is to migrate namespace `pb-pwx-test` to the destination cluster identified  as `remote-us-east-cluster` through the clusterpair object created earlier.
+
+   `startApplications: true` - Since we are using a basic statefulset, we set this value to `true`. 
+
+    > For more complex applications where additional infra or config changes would be needed to recover application after a disaster, set `startApplications: false`. This will migrate the resources and volumes but the `replicas` on contorller object will be `0` and will allow making the necessary changes to the application config and infra before starting the applications on target disaster site by increasing the replicas of deployment/statefulset. 
+
 
     ```
     ▶ oc get migrationschedule

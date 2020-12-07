@@ -9,7 +9,7 @@ spec:
       clusterPair: remote-us-east-cluster
       includeResources: true
       includeVolumes: true
-      startApplications: true
+      startApplications: true # set to false for complex applications where changes would be needed before starting the app on disaster site
       namespaces:
       - pb-pwx-test
   schedulePolicyName: failoverschedulepolicy
