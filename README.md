@@ -144,13 +144,13 @@ Refer to portworx docs [Enable load balancing on cloud clusters](https://docs.po
 > Reference https://www.ibm.com/support/producthub/icpdata/docs/content/SSQNUZ_current/cpd/admin/disaster-recovery-config-target.html
 
 - option 1 - Portworx service can be exposed by changing the service `portworx-service`  to use a `LoadBalancer` type. In this case, a vpc loadbalancer hostname will be generated and it maps to 9001 service port
-   > Do not do this in real environments withoit further consideration
+   > Do not do this in real environments without further consideration
     ```
     ▶ kubectl edit svc portworx-service -n kube-system
     ```
 
 - option 2 - Alternatively, a route can be generated which by default is exposed on port 80 and maps to 9001 port of `portworx-service`
-   > Do not do this in real environments withoit further consideration
+   > Do not do this in real environments without further consideration
     ```
     ▶ oc expose -n kube-system svc/portworx-service 
     ```
