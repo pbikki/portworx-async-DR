@@ -1,0 +1,16 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: SchedulePolicy
+metadata:
+  name: failoverschedulepolicy
+  namespace: test-async-dr
+policy:
+  interval:
+    intervalMinutes: 5
+  daily:
+    time: "12:00AM"
+  weekly:
+    day: "Thursday"
+    time: "12:00AM"
+  monthly:
+    date: 1
+    time: "12:00AM"

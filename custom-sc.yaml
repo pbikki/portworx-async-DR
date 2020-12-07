@@ -1,0 +1,10 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: pwx-custom-high-random-secure-sc
+provisioner: kubernetes.io/portworx-volume
+parameters:
+  repl: "1"
+  io_profile: "random"
+  priority_io: "high"
+  secure: "true"

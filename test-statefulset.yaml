@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: test-stateful
+spec:
+  selector:
+    matchLabels:
+      app: test-stateful
+  serviceName: test-stateful
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: test-stateful
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: test-stateful
+        image: alpine:3.8
+        command: ["/bin/sh"]
+        args: ["-c", "mkdir -p /usr/share/test; while true; do date >> /usr/share/test/date.log; sleep 10; done"]
+        volumeMounts:
+        - name: datelog
+          mountPath: /usr/share/test
+  volumeClaimTemplates:
+  - metadata:
+      name: datelog
+      # annotations:
+      #  px/secure: "true"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: pwx-custom-high-random-secure-sc
+      resources:
+        requests:
+          storage: 1Gi
